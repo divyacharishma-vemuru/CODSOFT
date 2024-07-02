@@ -1,0 +1,110 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Student {
+    private String name;
+    private int id;
+    private String course;
+
+    public Student(String name, int id, String course) {
+        this.name = name;
+        this.id = id;
+        this.course = course;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    @Override
+    public String toString() {
+        return "Student ID: " + id + ", Name: " + name + ", Course: " + course;
+    }
+}
+
+public class StudentRegistrationSystem {
+    private ArrayList<Student> students;
+    private int nextId;
+
+    public StudentRegistrationSystem() {
+        students = new ArrayList<>();
+        nextId = 1;
+    }
+
+    public void addStudent(String name, String course) {
+        Student newStudent = new Student(name, nextId++, course);
+        students.add(newStudent);
+        System.out.println("Student added successfully: " + newStudent);
+    }
+
+    public void displayStudent(int id) {
+        for (Student student : students) {
+            if (student.getId() == id) {
+                System.out.println(student);
+                return;
+            }
+        }
+        System.out.println("Student with ID " + id + " not found.");
+    }
+
+    public void listAllStudents() {
+        if (students.isEmpty()) {
+            System.out.println("No students registered.");
+        } else {
+            for (Student student : students) {
+                System.out.println(student);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        StudentRegistrationSystem system = new StudentRegistrationSystem();
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("Student Registration System");
+            System.out.println("1. Add Student");
+            System.out.println("2. Display Student");
+            System.out.println("3. List All Students");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter student name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter course: ");
+                    String course = scanner.nextLine();
+                    system.addStudent(name, course);
+                    break;
+                case 2:
+                    System.out.print("Enter student ID: ");
+                    int id = scanner.nextInt();
+                    system.displayStudent(id);
+                    break;
+                case 3:
+                    system.listAllStudents();
+                    break;
+                case 4:
+                    System.out.println("Exiting the system.");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+            System.out.println();
+        } while (choice != 4);
+
+        scanner.close();
+    }
+}
